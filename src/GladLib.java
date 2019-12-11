@@ -13,20 +13,23 @@ public class GladLib {
     private ArrayList<String> timeList;
     private ArrayList<String> verbList;
     private ArrayList<String> fruitList;
+    private ArrayList<String> usedWords;
 
     private Random myRandom;
 
     private static String dataSourceURL = "http://dukelearntoprogram.com/course3/data";
-    private static String dataSourceDirectory = "GladLibData/data";
+    private static String dataSourceDirectory = "GladLibData/datalong";
 
     public GladLib(){
         initializeFromSource(dataSourceDirectory);
         myRandom = new Random();
+        usedWords = new ArrayList<>();
     }
 
     public GladLib(String source){
         initializeFromSource(source);
         myRandom = new Random();
+        usedWords = new ArrayList<>();
     }
 
     private void initializeFromSource(String source) {
@@ -89,6 +92,10 @@ public class GladLib {
         String prefix = w.substring(0,first);
         String suffix = w.substring(last+1);
         String sub = getSubstitute(w.substring(first+1,last));
+        while (usedWords.contains(sub)) {
+            sub = getSubstitute(w.substring(first+1,last));
+        }
+        usedWords.add(sub);
         return prefix+sub+suffix;
     }
 
@@ -140,8 +147,9 @@ public class GladLib {
 
     public void makeStory(){
         System.out.println("\n");
-        String story = fromTemplate("GladLibData/data/madtemplate2.txt");
+        String story = fromTemplate("GladLibData/datalong/madtemplate2.txt");
         printOut(story, 60);
+        usedWords.clear();
     }
 
     public static void main(String[] args) {
