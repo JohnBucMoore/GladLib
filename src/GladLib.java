@@ -1,6 +1,4 @@
 import edu.duke.*;
-
-import java.io.File;
 import java.util.*;
 
 public class GladLib {
@@ -14,6 +12,7 @@ public class GladLib {
     private ArrayList<String> verbList;
     private ArrayList<String> fruitList;
     private ArrayList<String> usedWords;
+    private int replacedWords;
 
     private Random myRandom;
 
@@ -24,12 +23,14 @@ public class GladLib {
         initializeFromSource(dataSourceDirectory);
         myRandom = new Random();
         usedWords = new ArrayList<>();
+        replacedWords = 0;
     }
 
     public GladLib(String source){
         initializeFromSource(source);
         myRandom = new Random();
         usedWords = new ArrayList<>();
+        replacedWords = 0;
     }
 
     private void initializeFromSource(String source) {
@@ -96,6 +97,7 @@ public class GladLib {
             sub = getSubstitute(w.substring(first+1,last));
         }
         usedWords.add(sub);
+        replacedWords++;
         return prefix+sub+suffix;
     }
 
@@ -149,6 +151,7 @@ public class GladLib {
         System.out.println("\n");
         String story = fromTemplate("GladLibData/datalong/madtemplate2.txt");
         printOut(story, 60);
+        System.out.println(replacedWords);
         usedWords.clear();
     }
 
