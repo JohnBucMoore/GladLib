@@ -7,7 +7,8 @@ import java.util.Random;
 
 public class GladLibMap {
     private HashMap<String, ArrayList<String>> wordMap;
-    private static HashMap<String, String> myLabelSource;
+    private HashMap<String, String> myLabelSource;
+    private ArrayList<String> usedCategories;
     private ArrayList<String> usedWords;
     private int replacedWords;
 
@@ -19,6 +20,7 @@ public class GladLibMap {
     public GladLibMap(){
         wordMap = new HashMap<>();
         myLabelSource = new HashMap<>();
+        usedCategories =  new ArrayList<>();
         usedWords = new ArrayList<>();
         myRandom = new Random();
         replacedWords = 0;
@@ -49,6 +51,9 @@ public class GladLibMap {
     }
 
     private String getSubstitute(String label) {
+        if (! usedCategories.contains(label)) {
+            usedCategories.add(label);
+        }
         if (label.equals("number")){
             return ""+myRandom.nextInt(50)+5;
         }
@@ -123,8 +128,19 @@ public class GladLibMap {
 
     public int totalWordsInMap() {
         int total = 0;
+        for (String label : wordMap.keySet()) {
+            //System.out.println(wordMap.get(label).size()+"\t"+wordMap.get(label));
+            total += wordMap.get(label).size();
+        }
+        return total;
+    }
+
+    public int totalWordsConsidered() {
+        int total = 0;
         for (String wordList : wordMap.keySet()) {
-            total += wordList.length();
+            if (usedCategories.contains(wordList)) {
+                total += wordMap.get(wordList).size();
+            }
         }
         return total;
     }
@@ -135,7 +151,12 @@ public class GladLibMap {
         printOut(story, 60);
         System.out.println("\n"+replacedWords);
         System.out.println(totalWordsInMap());
+        //System.out.println(usedCategories);
+        System.out.println(totalWordsConsidered());
+        wordMap.clear();
+        myLabelSource.clear();
         usedWords.clear();
+        usedCategories.clear();
     }
 
     public static void main(String[] args) {
