@@ -121,11 +121,20 @@ public class GladLibMap {
         return list;
     }
 
+    public int totalWordsInMap() {
+        int total = 0;
+        for (String wordList : wordMap.keySet()) {
+            total += wordList.length();
+        }
+        return total;
+    }
+
     public void makeStory(){
         System.out.println("\n");
         String story = fromTemplate("GladLibData/datalong/madtemplate2.txt");
         printOut(story, 60);
         System.out.println("\n"+replacedWords);
+        System.out.println(totalWordsInMap());
         usedWords.clear();
     }
 
